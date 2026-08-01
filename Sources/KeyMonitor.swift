@@ -7,10 +7,12 @@ class KeyMonitor {
     private var eventTap: CFMachPort?
     private var runLoopSource: CFRunLoopSource?
     private var healthCheckTimer: Timer?
-    private var fnIsDown = false
+    private var leftCtrlIsDown = false
+    private var leftOptionIsDown = false
+    private var comboIsActive = false
 
-    private static let fnKeyCode: UInt16 = 63
-    private static let fnFlagMask: UInt64 = 0x800000
+    private static let leftCtrlKeyCode: UInt16 = 59
+    private static let leftOptionKeyCode: UInt16 = 58
 
     func start() -> Bool {
         let eventMask: CGEventMask = (1 << CGEventType.flagsChanged.rawValue)
@@ -79,22 +81,28 @@ class KeyMonitor {
 
         let keyCode = UInt16(event.getIntegerValueField(.keyboardEventKeycode))
 
-        // Only handle fn key (keyCode 63)
-        guard keyCode == KeyMonitor.fnKeyCode else {
+        // Only handle left Control (59) or left Option (58)
+        guard keyCode == KeyMonitor.leftCtrlKeyCode || keyCode == KeyMonitor.leftOptionKeyCode else {
             return Unmanaged.passRetained(event)
         }
 
-        let flags = event.flags.rawValue
-        let fnPressed = (flags & KeyMonitor.fnFlagMask) != 0
+        let flags = event.flags
+        if keyCode == KeyMonitor.leftCtrlKeyCode {
+            leftCtrlIsDown = flags.contains(.maskControl)
+        } else if keyCode == KeyMonitor.leftOptionKeyCode {
+            leftOptionIsDown = flags.contains(.maskAlternate)
+        }
 
-        if fnPressed && !fnIsDown {
-            fnIsDown = true
+        let bothDown = leftCtrlIsDown && leftOptionIsDown
+
+        if bothDown && !comboIsActive {
+            comboIsActive = true
             DispatchQueue.main.async { [weak self] in
                 self?.onFnKeyDown?()
             }
             return nil // Suppress the event
-        } else if !fnPressed && fnIsDown {
-            fnIsDown = false
+        } else if !bothDown && comboIsActive {
+            comboIsActive = false
             DispatchQueue.main.async { [weak self] in
                 self?.onFnKeyUp?()
             }

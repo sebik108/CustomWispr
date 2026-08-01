@@ -161,11 +161,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func startKeyMonitor() {
         keyMonitor.onFnKeyDown = { [weak self] in
-            log("fn key DOWN detected")
+            log("shortcut (⌃⌥) DOWN detected")
             self?.handleFnDown()
         }
         keyMonitor.onFnKeyUp = { [weak self] in
-            log("fn key UP detected")
+            log("shortcut (⌃⌥) UP detected")
             self?.handleFnUp()
         }
 

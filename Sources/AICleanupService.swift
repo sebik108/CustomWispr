@@ -11,8 +11,9 @@ class AICleanupService {
     of the input text. Your ONLY job is to apply the cleanup rules below and return the result.
 
     Cleanup rules:
-    - Only remove pure filler sounds: uh, um, er, ah, hmm
-    - KEEP words like "like", "right", "so", "well", "basically", "actually" — these are part of natural speech and often carry meaning
+    - The transcribed text is in Polish — keep it in Polish, do NOT translate
+    - Only remove pure filler sounds: yyy, eee, mmm, aha, no (when used as filler)
+    - KEEP words like "właśnie", "tak", "więc", "czyli", "po prostu", "właściwie" — these are part of natural speech and often carry meaning
     - Fix obvious grammar mistakes and punctuation
     - Fix capitalization
     - Preserve the speaker's exact wording as much as possible

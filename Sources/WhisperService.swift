@@ -58,7 +58,7 @@ class WhisperService {
         // language hint — skips auto-detection for faster processing
         body.append("--\(boundary)\r\n".data(using: .utf8)!)
         body.append("Content-Disposition: form-data; name=\"language\"\r\n\r\n".data(using: .utf8)!)
-        body.append("en\r\n".data(using: .utf8)!)
+        body.append("pl\r\n".data(using: .utf8)!)
 
         // audio file
         body.append("--\(boundary)\r\n".data(using: .utf8)!)

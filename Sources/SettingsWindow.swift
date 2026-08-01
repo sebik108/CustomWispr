@@ -517,7 +517,7 @@ class SettingsWindow: NSObject, NSTableViewDataSource, NSTableViewDelegate, NSTe
         - Sources/WhisperService.swift   — OpenAI Whisper transcription API
         - Sources/AICleanupService.swift — GPT post-processing of transcriptions
         - Sources/TextInjector.swift     — Pastes text into the active app
-        - Sources/KeyMonitor.swift       — Global fn key listener (CGEventTap)
+        - Sources/KeyMonitor.swift       — Global hotkey listener (CGEventTap)
         - Sources/SettingsWindow.swift   — Settings UI with find/replace
         - Sources/SettingsManager.swift  — Persists user settings to disk
         - Sources/OverlayWindow.swift    — Recording status overlay

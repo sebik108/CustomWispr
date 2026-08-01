@@ -145,19 +145,19 @@ class WelcomeWindow: NSObject, NSTextFieldDelegate {
         container.addSubview(button)
     }
 
-    // MARK: - Step 1: Fn Key
+    // MARK: - Step 1: Recording Shortcut
 
     private func buildFnKeyStep(in container: NSView) {
         let width = container.bounds.width
 
-        let title = makeLabel("Configure Fn Key", size: 22, weight: .bold, color: textColor)
+        let title = makeLabel("Your Recording Shortcut", size: 22, weight: .bold, color: textColor)
         title.alignment = .center
         title.frame = NSRect(x: 20, y: 380, width: width - 40, height: 30)
         title.autoresizingMask = [.width]
         container.addSubview(title)
 
         let desc = makeLabel(
-            "CustomWispr uses the fn key to start recording.\nSet your fn key to \"Do Nothing\" in System Settings.",
+            "CustomWispr uses Left Control + Left Option to start recording.\nNo System Settings changes are needed.",
             size: 14, weight: .regular, color: mutedColor
         )
         desc.alignment = .center
@@ -170,15 +170,15 @@ class WelcomeWindow: NSObject, NSTextFieldDelegate {
         let card = makeCard(frame: NSRect(x: 60, y: 195, width: width - 120, height: 110))
         container.addSubview(card)
 
-        let step1 = makeLabel("1. Open System Settings > Keyboard", size: 13, weight: .regular, color: textColor)
+        let step1 = makeLabel("1. Hold ⌃ (Control) + ⌥ (Option), both on the left", size: 13, weight: .regular, color: textColor)
         step1.frame = NSRect(x: 20, y: 75, width: card.bounds.width - 40, height: 18)
         card.addSubview(step1)
 
-        let step2 = makeLabel("2. Set \"Press fn key to\" to \"Do Nothing\"", size: 13, weight: .regular, color: textColor)
+        let step2 = makeLabel("2. Speak, then release both keys to transcribe", size: 13, weight: .regular, color: textColor)
         step2.frame = NSRect(x: 20, y: 50, width: card.bounds.width - 40, height: 18)
         card.addSubview(step2)
 
-        let openBtn = makeSecondaryButton(title: "Open Keyboard Settings", target: self, action: #selector(openKeyboardSettings))
+        let openBtn = makeSecondaryButton(title: "Check Keyboard Shortcuts", target: self, action: #selector(openKeyboardSettings))
         openBtn.frame = NSRect(x: (card.bounds.width - 200) / 2, y: 10, width: 200, height: 32)
         card.addSubview(openBtn)
 
@@ -198,7 +198,7 @@ class WelcomeWindow: NSObject, NSTextFieldDelegate {
         container.addSubview(title)
 
         let desc = makeLabel(
-            "CustomWispr needs Accessibility access to\nmonitor the fn key and inject transcribed text.",
+            "CustomWispr needs Accessibility access to\nmonitor the shortcut keys and inject transcribed text.",
             size: 14, weight: .regular, color: mutedColor
         )
         desc.alignment = .center
@@ -399,7 +399,7 @@ class WelcomeWindow: NSObject, NSTextFieldDelegate {
         container.addSubview(title)
 
         let desc = makeLabel(
-            "Hold the fn key to record, release to transcribe.",
+            "Hold Left Control + Left Option to record, release to transcribe.",
             size: 14, weight: .regular, color: mutedColor
         )
         desc.alignment = .center
