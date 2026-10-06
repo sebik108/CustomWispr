@@ -21,3 +21,4 @@ windows/CustomWispr/bin/
 windows/CustomWispr/obj/
 windows/publish/
 *.exe
+_backup/

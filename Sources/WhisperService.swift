@@ -84,7 +84,28 @@ class WhisperService {
         }
 
         let result = try JSONDecoder().decode(WhisperResponse.self, from: data)
-        return result.text
+        return Self.stripHallucinations(result.text)
+    }
+
+    /// Whisper was trained on YouTube subtitles, so on silence or trailing noise it sometimes
+    /// "hears" subtitle credits, e.g. "Napisy stworzone przez społeczność Amara.org".
+    /// Remove those phrases before the text goes any further.
+    private static let hallucinationPatterns = [
+        "(napisy|subtitles|transkrypcja|tłumaczenie)[^.!?\\n]{0,80}?amara\\s*\\.?\\s*org(\\s+community)?\\.?",
+        "(przez\\s+)?((społeczność|community)\\s+)?amara\\s*\\.?\\s*org\\.?",
+        "napisy (stworzone|wykonane|przygotowane|zrobione) przez społeczność\\.?"
+    ]
+
+    static func stripHallucinations(_ text: String) -> String {
+        var result = text
+        for pattern in hallucinationPatterns {
+            result = result.replacingOccurrences(of: pattern, with: " ",
+                                                 options: [.regularExpression, .caseInsensitive])
+        }
+        guard result != text else { return text }
+        log("Removed Whisper hallucination (subtitle credits) from transcription")
+        return result.replacingOccurrences(of: " {2,}", with: " ", options: .regularExpression)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     struct WhisperResponse: Decodable {
